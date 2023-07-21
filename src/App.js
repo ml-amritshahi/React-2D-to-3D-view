@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Line from "./Line";
+import { Canvas } from "@react-three/fiber";
+import Coordinates from "./coordinates";
 
 function App() {
+  const [finish, setFinish] = useState(false);
+  const [cord, setcord] = useState([]);
+
+  const onDotsUpdate = (updatedDots) => {
+    setcord(updatedDots);
+  };
+
+  const onComplete = () => {
+    setFinish(!finish);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ width: "100%", height: "90vh", backgroundColor: '#fff' }}>
+      <Canvas style={{ width: "100%", height: "100%" }}>
+        <Line isCompleted={finish} onDotsUpdate={onDotsUpdate} />
+      </Canvas>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "18px",
+          marginTop: "8px",
+        }}
+      >
+        <button onClick={onComplete}>
+          {finish ? "2D View" : "3D View"}
+        </button>
+      </div>
+      <Coordinates cord={cord} />
     </div>
   );
 }
